@@ -1,40 +1,77 @@
 #include <stdio.h>
+#include <stdlib.h>  // Para usar abs()
 
-// Desafio Batalha Naval - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
-// Siga os comentários para implementar cada parte do desafio.
+#define TAM 5  // Tamanho fixo do tabuleiro
 
+// ----------------------------
+// Função para exibir a matriz
+// ----------------------------
+void exibirMatriz(int matriz[TAM][TAM]) {
+    for (int i = 0; i < TAM; i++) {
+        for (int j = 0; j < TAM; j++) {
+            printf("%d ", matriz[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+// -----------------------------------------------------------
+// Preenche a matriz com o padrão de CONE (triângulo invertido)
+// -----------------------------------------------------------
+void habilidadeCone(int matriz[TAM][TAM]) {
+    for (int i = 0; i < TAM; i++) {
+        for (int j = 0; j < TAM; j++) {
+            // A partir da linha 2, expande para os lados formando o cone
+            if (i >= 2 && j >= 2 - (i - 2) && j <= 2 + (i - 2)) {
+                matriz[i][j] = 1;
+            } else {
+                matriz[i][j] = 0;
+            }
+        }
+    }
+}
+
+// ------------------------------------
+// Preenche a matriz com o padrão CRUZ
+// ------------------------------------
+void habilidadeCruz(int matriz[TAM][TAM]) {
+    for (int i = 0; i < TAM; i++) {
+        for (int j = 0; j < TAM; j++) {
+            // Marca linha e coluna centrais
+            matriz[i][j] = (i == 2 || j == 2) ? 1 : 0;
+        }
+    }
+}
+
+// ----------------------------------------
+// Preenche a matriz com o padrão OCTAEDRO
+// ----------------------------------------
+void habilidadeOctaedro(int matriz[TAM][TAM]) {
+    for (int i = 0; i < TAM; i++) {
+        for (int j = 0; j < TAM; j++) {
+            // Forma de losango com centro em (2,2) e raio 1
+            matriz[i][j] = (abs(i - 2) + abs(j - 2) <= 1) ? 1 : 0;
+        }
+    }
+}
+
+// --------------------------
+// Função principal do jogo
+// --------------------------
 int main() {
-    // Nível Novato - Posicionamento dos Navios
-    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
-    // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
-    // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
+    int matriz[TAM][TAM];
 
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
+    printf("🔺 Habilidade: CONE\n");
+    habilidadeCone(matriz);
+    exibirMatriz(matriz);
 
-    // Nível Mestre - Habilidades Especiais com Matrizes
-    // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
-    // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
-    // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
+    printf("\n➕ Habilidade: CRUZ\n");
+    habilidadeCruz(matriz);
+    exibirMatriz(matriz);
 
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
-    
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
-
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
+    printf("\n♦️ Habilidade: OCTAEDRO\n");
+    habilidadeOctaedro(matriz);
+    exibirMatriz(matriz);
 
     return 0;
 }
